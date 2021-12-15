@@ -53,5 +53,5 @@ public class Application {
 		this.reasons = reasons;
 		this.status = status;
 	}
-
+	//changes
 }
