@@ -6,12 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+@Table(name="MyApplications")
 public class Application {
 	
 	@Id
@@ -21,8 +23,7 @@ public class Application {
 	@ManyToOne(optional=false)
 	private Employee employee; //Leave remaining can be accessed here?
 	
-	@OneToOne
-	private Leave leave;
+	private LeaveType leave;
 	
 	
 	private ApplicationStatus status;
