@@ -1,22 +1,42 @@
 package sg.com.laps.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.validation.constraints.NotEmpty;
+
+
 
 
 @Entity
-@Table(name="AllUsers")
+@Table(name="AllUsers")//, uniqueConstraints = {@UniqueConstraint(name="user_id_unique",columnNames = {"theuserid"})
 public abstract class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "userid")
+	@Column(name = "theuserid",  nullable = false)//, unique = true)
 	private String userId;
 	
+	@NotEmpty
+	@Column(name = "name")
+	private String name;
+	@NotEmpty
+	@Column(name = "password")
+	private String password;
+	@Column(name = "employeeid")
+	private String employeeId;
+	
+//	private List<Role> role;
 //	@NotEmpty
 //	@Column(name = "firstname")
 //	private String firstName;
@@ -30,14 +50,13 @@ public abstract class User {
 //	
 //	@Column(name = "emailaddress")
 //	private String emailAddress;
-	@NotEmpty
-	@Column(name = "name")
-	private String name;
-	@NotEmpty
-	@Column(name = "password")
-	private String password;
-	@Column(name = "employeeid")
-	private String employeeId;
+
+	
+//	@ManyToMany(targetEntity = Employee.class, cascade = {CascadeType.ALL, CascadeType.PERSIST}, fetch=FetchType.EAGER)
+//	@JoinTable(name = "AllUsers", joinColumns = {
+//			@JoinColumn(name = "theuserid", referencedColumnName = "theuserId") }, inverseJoinColumns = {
+//					@JoinColumn(name = "roleId", referencedColumnName = "roleId") }
+//	)
 	
 	
 //	public String getFirstName() {
@@ -92,14 +111,22 @@ public abstract class User {
 	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
+	
 
 
 	public User(String userId, String name, String password, String employeeId) {
+		super();
 		this.userId = userId;
 		this.name = name;
 		this.password = password;
 		this.employeeId = employeeId;
 	}
 
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	
 }

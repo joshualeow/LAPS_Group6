@@ -1,5 +1,5 @@
 package sg.com.laps.model;
 
 public enum ApplicationStatus {
-	APPROVED, REJECTED, CANCELLED, DELETED
+	APPROVED, REJECTED, CANCELLED, DELETED, PENDING
 }
