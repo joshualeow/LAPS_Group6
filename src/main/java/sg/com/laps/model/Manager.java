@@ -1,6 +1,6 @@
 package sg.com.laps.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,25 +8,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Table(name="managers")
+@Data
+@NoArgsConstructor
 public class Manager extends Employee{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer mgrId;
+	private @Getter @Setter Integer Id;
 	
-	@OneToMany(mappedBy="Employee", cascade = CascadeType.PERSIST)
-	private Collection<Employee> totalEmp;
-	//Why persist? PERSIST just cascades for persist method.
-	//If you delete or merge your parent entity, the related child entity wouln't be touched.
+	@OneToMany(targetEntity=Employee.class, cascade = CascadeType.PERSIST)
+	private @Getter @Setter List<Employee> subordinates;
 	
-	public Manager(Manager manager, Collection<Application> applications, Integer remainingLeave) {
-		super(manager, applications, remainingLeave);
-		// TODO Auto-generated constructor stubCascadeType. 
+	public Manager(String firstName, String secondName, String lastName, String emailAddress, Manager manager, Integer remainingLeave) {
+		super(firstName, secondName, lastName, emailAddress, manager, remainingLeave);
 	}
 
-	public Manager(Manager manager, Collection<Employee> totalEmp) {
-		this.totalEmp = totalEmp;
-	}
 }

@@ -8,45 +8,41 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@NoArgsConstructor
 public class Application {
 	
 	@Id
-	private Integer applicationId;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer Id;	
 	@NotEmpty
 	@ManyToOne(optional=false)
-	private Employee employee; //Leave remaining can be accessed here?
-	
-	@OneToOne
-	private Leave leave;
-	
-	
-	private ApplicationStatus status;
-	
+	private @Getter @Setter Employee employee;
+	@ManyToOne(optional=false, targetEntity = LeaveType.class)
+	private @Getter @Setter LeaveType leaveType;
+	@OneToOne(targetEntity = ApplicationStatus.class)
+	private @Getter @Setter ApplicationStatus status;
+	@FutureOrPresent
+	@DateTimeFormat(pattern="dd-MM-yyyy")
+	private @Getter @Setter LocalDate startDate;
 	@FutureOrPresent
 	@DateTimeFormat (pattern="dd-MM-yyyy")
-	private LocalDate startDate;
-	
-	@FutureOrPresent
-	@DateTimeFormat (pattern="dd-MM-yyyy")
-	private LocalDate endDate;
-	
-	private String reasons;
+	private @Getter @Setter LocalDate endDate;
+	private @Getter @Setter String reasons;
 
-	public Application() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	public Application(Integer applicationId, @NotEmpty Employee employee, @FutureOrPresent LocalDate startDate, 
+	public Application(@NotEmpty Employee employee, @FutureOrPresent LocalDate startDate, 
 			@FutureOrPresent LocalDate endDate, String reasons, ApplicationStatus status) {
 		
 		super();
-		this.applicationId = applicationId;
 		this.employee = employee;
 		this.startDate = startDate;
 		this.endDate = endDate;
